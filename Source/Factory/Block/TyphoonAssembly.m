@@ -16,7 +16,6 @@
 #import "TyphoonDefinition.h"
 #import "TyphoonComponentFactory.h"
 #import "TyphoonAssemblySelectorAdviser.h"
-#import "OCLogTemplate.h"
 #import "TyphoonAssembly+TyphoonAssemblyFriend.h"
 #import "TyphoonAssemblyAdviser.h"
 #import "TyphoonAssemblyDefinitionBuilder.h"
@@ -130,7 +129,7 @@ static NSMutableArray* reservedSelectorsAsStrings;
 
 + (IMP)implementationToConstructDefinitionForSEL:(SEL)selWithAdvicePrefix
 {
-    return imp_implementationWithBlock((__bridge id)objc_unretainedPointer((TyphoonDefinition*)^(TyphoonAssembly* me)
+    return imp_implementationWithBlock((__bridge id)(__bridge void*)((TyphoonDefinition*)^(TyphoonAssembly* me)
     {
         NSString* key = [TyphoonAssemblySelectorAdviser keyForAdvisedSEL:selWithAdvicePrefix];
         return [me->_definitionBuilder builtDefinitionForKey:key];

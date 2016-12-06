@@ -15,7 +15,6 @@
 #import "TyphoonDefinition.h"
 #import "TyphoonPropertyInjectedWithStringRepresentation.h"
 #import "TyphoonDefinition+InstanceBuilder.h"
-#import "OCLogTemplate.h"
 #import "TyphoonComponentFactory.h"
 
 @implementation TyphoonPropertyPlaceholderConfigurer
@@ -129,7 +128,6 @@
         NSString* key = [component.textValue substringFromIndex:[_prefix length]];
         key = [key substringToIndex:[key length] - [_suffix length]];
         NSString* value = [_properties valueForKey:key];
-        LogTrace(@"Setting property '%@' to value '%@'", key, value);
         component.textValue = value;
     }
 }

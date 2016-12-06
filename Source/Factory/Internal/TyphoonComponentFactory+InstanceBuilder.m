@@ -36,7 +36,6 @@ TYPHOON_LINK_CATEGORY(TyphoonComponentFactory_InstanceBuilder)
 #import "TyphoonTypeConvertedCollectionValue.h"
 #import "TyphoonParameterInjectedWithObjectInstance.h"
 #import "TyphoonIntrospectionUtils.h"
-#import "OCLogTemplate.h"
 #import "TyphoonPropertyInjectedAsObjectInstance.h"
 #import "TyphoonComponentFactoryAware.h"
 #import "TyphoonParameterInjectedAsCollection.h"
@@ -267,7 +266,6 @@ format:@"Tried to inject property '%@' on object of type '%@', but the instance 
     {
         NSDictionary* circularDependencies = [instance circularDependentProperties];
         [circularDependencies setValue:componentKey forKey:propertyName];
-        LogTrace(@"Circular dependency detected: %@", [instance circularDependentProperties]);
     }
 }
 
@@ -457,7 +455,6 @@ format:@"Tried to inject property '%@' on object of type '%@', but the instance 
         SEL autoInjectedProperties = sel_registerName("typhoonAutoInjectedProperties");
         if (class_isMetaClass(object_getClass(classOrProtocol)) && [classOrProtocol respondsToSelector:autoInjectedProperties])
         {
-            LogTrace(@"Class %@ wants auto-wiring. . . registering.", NSStringFromClass(classOrProtocol));
             [self register:[TyphoonDefinition withClass:classOrProtocol]];
             return [self definitionForType:classOrProtocol];
         }
@@ -506,9 +503,7 @@ format:@"Tried to inject property '%@' on object of type '%@', but the instance 
 {
     if ([instance isKindOfClass:[NSManagedObjectModel class]])
     {
-        LogInfo("FixMe: Ensuring NSManagedObjectModel is not over-released.");
         objc_msgSend(instance, NSSelectorFromString(@"retain"));
-
     }
 }
 

@@ -13,7 +13,6 @@
 #import "TyphoonAssemblyDefinitionBuilder.h"
 #import "TyphoonAssembly.h"
 #import "TyphoonDefinition.h"
-#import "OCLogTemplate.h"
 #import "TyphoonDefinition+Infrastructure.h"
 #import "TyphoonAssembly+TyphoonAssemblyFriend.h"
 #import "TyphoonAssemblySelectorAdviser.h"
@@ -83,8 +82,6 @@
     id cached = [self populateCacheWithDefinitionForKey:key];
     [self markKeyResolved:key];
 
-    LogTrace(@"Did finish building definition for key: '%@'", key);
-
     return cached;
 }
 
@@ -115,7 +112,6 @@
         NSString* top = [resolveStack lastObject];
         if ([top isEqualToString:bottom])
         {
-            LogTrace(@"Circular dependency detected in definition for key '%@'.", key);
             return YES;
         }
     }

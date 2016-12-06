@@ -18,7 +18,6 @@
 #import "TyphoonTypeConverter.h"
 #import "TyphoonTypeConverterRegistry.h"
 #import <objc/message.h>
-#import "OCLogTemplate.h"
 #import "TyphoonComponentPostProcessor.h"
 #import "TyphoonInitializer.h"
 
@@ -95,7 +94,6 @@
     }
     else
     {
-        LogTrace(@"Registering: %@ with key: %@", NSStringFromClass(_definition.type), _definition.key);
         [_componentFactory addDefinitionToRegistry:_definition];
     }
 }
@@ -113,8 +111,6 @@
 
 - (void)registerInfrastructureComponentFromDefinition
 {
-    LogTrace(@"Registering Infrastructure component: %@ with key: %@", NSStringFromClass(_definition.type), _definition.key);
-
     id infrastructureComponent = [_componentFactory objectForDefinition:_definition];
     if ([_definition.type conformsToProtocol:@protocol(TyphoonComponentFactoryPostProcessor)])
     {

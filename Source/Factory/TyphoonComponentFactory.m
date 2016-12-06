@@ -14,7 +14,6 @@
 #import "TyphoonComponentFactory.h"
 #import "TyphoonDefinition.h"
 #import "TyphoonComponentFactory+InstanceBuilder.h"
-#import "OCLogTemplate.h"
 #import "TyphoonDefinitionRegisterer.h"
 #import "TyphoonComponentFactory+TyphoonDefinitionRegisterer.h"
 #import "TyphoonOrdered.h"
@@ -186,11 +185,9 @@ static TyphoonComponentFactory* defaultFactory;
 
 - (void)attachPostProcessor:(id <TyphoonComponentFactoryPostProcessor>)postProcessor
 {
-    LogTrace(@"Attaching post processor: %@", postProcessor);
     [_postProcessors addObject:postProcessor];
     if ([self isLoaded])
     {
-        LogDebug(@"Definitions registered, refreshing all singletons.");
         [self unload];
     }
 }

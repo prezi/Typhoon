@@ -15,7 +15,6 @@
 #include <objc/runtime.h>
 
 #import "NSObject+TyphoonIntrospectionUtils.h"
-#import "OCLogTemplate.h"
 #import "TyphoonAssistedFactoryMethodInitializer.h"
 
 static NSString *const kMethodKey = @"kMethodKey";
@@ -222,12 +221,6 @@ static NSString *const kScoreKey = @"kScoreKey";
         NSNumber *factoryMethodIndex = initializerCandidates[initializerIndex];
         TyphoonAssistedFactoryCreatorImplicitMethod *initializer = initializers[[initializerIndex unsignedIntegerValue]];
         TyphoonAssistedFactoryCreatorImplicitFactoryMethod *factoryMethod = factoryMethods[[factoryMethodIndex unsignedIntegerValue]];
-
-        LogTrace(@"Factory Provider: found candidate: [%s %s] --> [%s %s]",
-                 protocol_getName(_protocol),
-                 sel_getName(factoryMethod.methodName),
-                 class_getName(_returnType),
-                 sel_getName(initializer.methodName));
 
         factoryMethod.selectedInitializer = initializer;
     }

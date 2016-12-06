@@ -16,7 +16,6 @@
 #import "TyphoonBlockComponentFactory.h"
 #import "TyphoonAssembly.h"
 #import "TyphoonDefinition.h"
-#import "OCLogTemplate.h"
 #import "TyphoonAssembly+TyphoonAssemblyFriend.h"
 
 
@@ -58,7 +57,6 @@
 
 - (void)buildAssembly:(TyphoonAssembly*)assembly
 {
-    LogTrace(@"Building assembly: %@", NSStringFromClass([assembly class]));
     [self assertIsAssembly:assembly];
 
     [assembly prepareForUse];
@@ -93,7 +91,6 @@
 - (void)forwardInvocation:(NSInvocation*)invocation
 {
     NSString* componentKey = NSStringFromSelector([invocation selector]);
-    LogTrace(@"Component key: %@", componentKey);
 
     [invocation setSelector:@selector(componentForKey:)];
     [invocation setArgument:&componentKey atIndex:2];

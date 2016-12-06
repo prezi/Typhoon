@@ -13,7 +13,6 @@
 #import "TyphoonPatcher.h"
 #import "TyphoonPatchObjectFactory.h"
 #import "TyphoonInitializer.h"
-#import "OCLogTemplate.h"
 #import "TyphoonDefinition+InstanceBuilder.h"
 #import "TyphoonComponentFactory.h"
 #import "TyphoonDefinition+Infrastructure.h"
@@ -74,7 +73,6 @@
         [patchFactory.initializer injectWithObjectInstance:[_patches objectForKey:key]];
         [newDefinitions addObject:patchFactory];
     }
-    LogDebug(@"New definitions to register: %@", newDefinitions);
     return [newDefinitions copy];
 }
 
@@ -83,7 +81,6 @@
     id patchObject = [_patches objectForKey:definition.key];
     if (patchObject)
     {
-        LogDebug(@"Patching component with key %@ with object %@", definition.key, patchObject);
         [definition setFactoryReference:[self patchFactoryNameForKey:definition.key]];
         [definition setInitializer:[[TyphoonInitializer alloc] initWithSelector:@selector(object)]];
         [definition setValue:nil forKey:@"injectedProperties"];

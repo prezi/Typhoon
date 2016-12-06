@@ -16,7 +16,6 @@
 #import "TyphoonJRSwizzle.h"
 #import <objc/runtime.h>
 #import "TyphoonAssembly+TyphoonAssemblyFriend.h"
-#import "OCLogTemplate.h"
 #import "TyphoonSelector.h"
 #import "TyphoonJRMethodSwizzler.h"
 
@@ -66,7 +65,6 @@ static NSMutableDictionary* swizzledDefinitionsByAssemblyClass;
 - (void)swizzleAssemblyMethods
 {
     NSSet* definitionSelectors = [self enumerateDefinitionSelectors];
-    LogTrace(@"About to swizzle the following methods: %@.", definitionSelectors);
     [self swizzleDefinitionSelectors:definitionSelectors];
     [[self class] markAssemblyMethods:definitionSelectors asAdvised:self.assembly];
 }
@@ -93,8 +91,6 @@ static NSMutableDictionary* swizzledDefinitionsByAssemblyClass;
 
 - (void)onFailureToSwizzleDefinitionSelector:(SEL)methodSelector withAdvisedSelector:(SEL)swizzled error:(NSError*)err
 {
-    LogError(@"Failed to swizzle method '%@' on class '%@' with method '%@'.", NSStringFromSelector(methodSelector), NSStringFromClass([self.assembly class]), NSStringFromSelector(swizzled));
-    LogError(@"'%@'", err);
     [NSException raise:NSInternalInconsistencyException format:@"Failed to swizzle method, everything is broken!"];
 }
 
@@ -112,8 +108,6 @@ static NSMutableDictionary* swizzledDefinitionsByAssemblyClass;
 + (void)unswizzleAssemblyMethods:(TyphoonAssembly*)assembly
 {
     NSSet* swizzledSelectors = [swizzledDefinitionsByAssemblyClass objectForKey:NSStringFromClass([assembly class])];
-
-    LogTrace(@"Unswizzling the following selectors: '%@' on assembly: '%@'.", [self humanReadableDescriptionForSelectorObjects:swizzledSelectors], assembly);
 
     [self swizzleDefinitionSelectors:swizzledSelectors onAssembly:assembly];
 
@@ -155,8 +149,6 @@ static NSMutableDictionary* swizzledDefinitionsByAssemblyClass;
     BOOL success = [assemblyClass typhoon_swizzleMethod:methodSelector withMethod:swizzled error:&err];
     if (!success)
     {
-        LogError(@"Failed to swizzle method '%@' on class '%@' with method '%@'.", NSStringFromSelector(methodSelector), NSStringFromClass(assemblyClass), NSStringFromSelector(swizzled));
-        LogError(@"'%@'", err);
         [NSException raise:NSInternalInconsistencyException format:@"Failed to swizzle method, everything is broken!"];
     }
 }
